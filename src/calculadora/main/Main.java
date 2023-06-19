@@ -18,6 +18,9 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         Menu menu = new Menu();
 
+        boolean repetir_menu = false;
+        boolean repetir = false;
+
         /* Inicio */
 
         do {
@@ -56,7 +59,7 @@ public class Main {
 
                     if (calc.getN1() < 0 && calc.getOperador() == '√') {
                         throw new Exception("Não existe raiz negativa");
-                    } 
+                    }
 
                     break;
 
@@ -117,26 +120,43 @@ public class Main {
                         System.out.println("+-----------------------+");
 
                         menu.setOpcao(sc.nextInt());
-                        if (menu.getOpcao() > 3 || menu.getOpcao() < 1) {
-                            throw new Exception("Não existe essa opção. Digite novamente");
+
+                        /* Execução da opção */
+                        if (!repetir_menu) {
+                            repetir_menu = true;
+                        }
+
+                        switch (menu.getOpcao()) {
+                            case 1:
+                                System.out.println("Cabo");
+                                System.exit(0);
+                                break;
+
+                            case 2:
+                                repetir = true;
+                                repetir_menu = false;
+                                break;
+
+                            case 3:
+                                menu.logo_historico();
+                                menu.printHistorico();
+                                break;
+                            default:
+                                throw new Exception("Opção inválida, Digite novamente");
                         }
                         break;
                     } catch (InputMismatchException e) {
                         System.out.println(String.format("Erro: Valor inválido. Digite novamente."));
                         sc.next();
-                        continue;
                     } catch (Exception j) {
                         System.out.println("Erro: " + j.getMessage());
                     }
 
                 }
 
-                /* Execução da opção */
-                menu.opcoes(menu.getOpcao());
+            } while (repetir_menu);
 
-            } while (menu.getRepetirMenu());
-
-        } while (menu.getRepetir());
+        } while (repetir);
 
         sc.close();
 
